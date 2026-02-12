@@ -1,0 +1,435 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# Require bash 4+ for associative arrays
+if [[ ${BASH_VERSINFO[0]} -lt 4 ]]; then
+    echo "Error: bash 4.0+ required. You have bash ${BASH_VERSION}" >&2
+    echo "On macOS, install with: brew install bash" >&2
+    exit 1
+fi
+
+# ==============================================================================
+# justvibin - CLI for scaffolding web application projects
+# ==============================================================================
+# A command-line interface for creating new projects from curated templates.
+#
+# Usage:
+#   justvibin new <project-name> [--local <path>]
+#   justvibin --help
+#   justvibin --version
+# ==============================================================================
+
+JUSTVIBIN_VERSION="0.1.0"
+JUSTVIBIN_CONFIG_DIR="${HOME}/.config/justvibin"
+
+# Default template URLs
+declare -A TEMPLATE_URLS
+TEMPLATE_URLS["django-hypermedia"]="https://github.com/alexcabrera/justvibin-with-django-and-hypermedia.git"
+
+# Template display names
+declare -A TEMPLATE_NAMES
+TEMPLATE_NAMES["django-hypermedia"]="Django + Hypermedia (HTMX, TailwindCSS)"
+
+# Colors for fallback when gum is not available
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[0;33m'
+BLUE='\033[0;34m'
+MAGENTA='\033[0;35m'
+CYAN='\033[0;36m'
+BOLD='\033[1m'
+NC='\033[0m'
+
+# ==============================================================================
+# Utility Functions
+# ==============================================================================
+
+has_gum() {
+    command -v gum &>/dev/null
+}
+
+is_interactive() {
+    [[ -t 1 ]] && [[ -t 0 ]]
+}
+
+can_use_gum() {
+    has_gum && is_interactive
+}
+
+print_header() {
+    if has_gum; then
+        gum style \
+            --foreground 212 --border-foreground 212 --border double \
+            --align center --width 50 --margin "1 2" --padding "1 4" \
+            "justvibin" "v${JUSTVIBIN_VERSION}"
+    else
+        echo ""
+        echo -e "${MAGENTA}╔════════════════════════════════════════════════╗${NC}"
+        echo -e "${MAGENTA}║                 ${BOLD}justvibin${NC}${MAGENTA}                       ║${NC}"
+        echo -e "${MAGENTA}║                  v${JUSTVIBIN_VERSION}                          ║${NC}"
+        echo -e "${MAGENTA}╚════════════════════════════════════════════════╝${NC}"
+        echo ""
+    fi
+}
+
+log_info() {
+    if has_gum; then
+        gum style --foreground 4 "$1"
+    else
+        echo -e "${BLUE}$1${NC}"
+    fi
+}
+
+log_success() {
+    if has_gum; then
+        gum style --foreground 2 "✓ $1"
+    else
+        echo -e "${GREEN}✓ $1${NC}"
+    fi
+}
+
+log_error() {
+    if has_gum; then
+        gum style --foreground 1 "✗ $1"
+    else
+        echo -e "${RED}✗ $1${NC}" >&2
+    fi
+}
+
+log_warn() {
+    if has_gum; then
+        gum style --foreground 3 "⚠ $1"
+    else
+        echo -e "${YELLOW}⚠ $1${NC}"
+    fi
+}
+
+spin() {
+    local msg="$1"
+    shift
+    if can_use_gum; then
+        gum spin --spinner dot --title "$msg" -- "$@"
+    else
+        echo -n "$msg... "
+        if "$@" >/dev/null 2>&1; then
+            echo -e "${GREEN}done${NC}"
+        else
+            echo -e "${RED}failed${NC}"
+            return 1
+        fi
+    fi
+}
+
+# ==============================================================================
+# Configuration
+# ==============================================================================
+
+load_user_templates() {
+    local config_file="${JUSTVIBIN_CONFIG_DIR}/templates.toml"
+    if [[ -f "$config_file" ]]; then
+        # Simple TOML parsing for template URLs
+        while IFS='=' read -r key value; do
+            key=$(echo "$key" | xargs)
+            value=$(echo "$value" | xargs | tr -d '"')
+            if [[ -n "$key" && -n "$value" && "$key" != "[templates]" && ! "$key" =~ ^# ]]; then
+                TEMPLATE_URLS["$key"]="$value"
+            fi
+        done < "$config_file"
+    fi
+}
+
+# ==============================================================================
+# Commands
+# ==============================================================================
+
+show_help() {
+    if has_gum; then
+        echo ""
+        gum style --foreground 212 --bold "Usage"
+        echo ""
+        gum style --foreground 220 "  justvibin new [name]       Create a new project"
+        gum style --foreground 220 "  justvibin templates        List available templates"
+        gum style --foreground 220 "  justvibin --help           Show this help"
+        gum style --foreground 220 "  justvibin --version        Show version"
+        echo ""
+        gum style --foreground 212 --bold "Options for new"
+        echo ""
+        gum style --foreground 159 "  --local PATH      Use local template directory"
+        gum style --foreground 159 "  --template NAME   Specify template (default: django-hypermedia)"
+        echo ""
+        gum style --foreground 212 --bold "Available Templates"
+        echo ""
+        gum style --foreground 159 "  django-hypermedia  Django + HTMX + TailwindCSS"
+        echo ""
+        gum style --foreground 212 --bold "Configuration"
+        echo ""
+        gum style --foreground 240 "  Custom templates: ~/.config/justvibin/templates.toml"
+    else
+        echo ""
+        echo -e "${MAGENTA}Usage${NC}"
+        echo ""
+        echo "  justvibin new <name>        Create a new project"
+        echo "  justvibin templates         List available templates"
+        echo "  justvibin --help            Show this help"
+        echo "  justvibin --version         Show version"
+        echo ""
+        echo -e "${MAGENTA}Options for new${NC}"
+        echo ""
+        echo "  --local <path>    Use local template directory"
+        echo "  --template <name> Specify template (default: django-hypermedia)"
+        echo ""
+        echo -e "${MAGENTA}Available Templates${NC}"
+        echo ""
+        echo "  django-hypermedia  Django + HTMX + TailwindCSS"
+        echo ""
+        echo -e "${MAGENTA}Configuration${NC}"
+        echo ""
+        echo "  Custom templates: ~/.config/justvibin/templates.toml"
+    fi
+}
+
+cmd_templates() {
+    echo ""
+    if has_gum; then
+        gum style --foreground 212 --bold "Available Templates"
+    else
+        echo -e "${MAGENTA}Available Templates${NC}"
+    fi
+    echo ""
+    
+    for key in "${!TEMPLATE_NAMES[@]}"; do
+        local url="${TEMPLATE_URLS[$key]:-<not configured>}"
+        if has_gum; then
+            gum style --foreground 220 "  $key"
+            gum style --foreground 240 "    ${TEMPLATE_NAMES[$key]}"
+            gum style --foreground 159 "    URL: $url"
+        else
+            echo -e "  ${YELLOW}$key${NC}"
+            echo "    ${TEMPLATE_NAMES[$key]}"
+            echo -e "    URL: ${CYAN}$url${NC}"
+        fi
+        echo ""
+    done
+    
+    echo ""
+    if has_gum; then
+        gum style --foreground 240 "To add custom templates, create ~/.config/justvibin/templates.toml:"
+        echo ""
+        gum style --foreground 159 '  [templates]'
+        gum style --foreground 159 '  my-template = "https://github.com/user/repo.git"'
+    else
+        echo "To add custom templates, create ~/.config/justvibin/templates.toml:"
+        echo ""
+        echo "  [templates]"
+        echo '  my-template = "https://github.com/user/repo.git"'
+    fi
+    echo ""
+}
+
+show_version() {
+    echo "justvibin v${JUSTVIBIN_VERSION}"
+}
+
+choose_template() {
+    local options=()
+    for key in "${!TEMPLATE_NAMES[@]}"; do
+        options+=("${TEMPLATE_NAMES[$key]}")
+    done
+    
+    local choice
+    if can_use_gum; then
+        choice=$(gum choose --header "Select a template:" "${options[@]}")
+    else
+        echo "Select a template:"
+        select opt in "${options[@]}"; do
+            if [[ -n "$opt" ]]; then
+                choice="$opt"
+                break
+            fi
+        done
+    fi
+    
+    # Map display name back to key
+    for key in "${!TEMPLATE_NAMES[@]}"; do
+        if [[ "${TEMPLATE_NAMES[$key]}" == "$choice" ]]; then
+            echo "$key"
+            return
+        fi
+    done
+}
+
+prompt_project_name() {
+    local name
+    if can_use_gum; then
+        name=$(gum input --placeholder "my-project" --header "Project name:")
+    else
+        read -rp "Project name: " name
+    fi
+    echo "$name"
+}
+
+cmd_new() {
+    local project_name=""
+    local local_path=""
+    local template="django-hypermedia"
+    
+    # Parse arguments
+    while [[ $# -gt 0 ]]; do
+        case $1 in
+            --local)
+                local_path="$2"
+                shift 2
+                ;;
+            --template)
+                template="$2"
+                shift 2
+                ;;
+            -*)
+                log_error "Unknown option: $1"
+                exit 1
+                ;;
+            *)
+                if [[ -z "$project_name" ]]; then
+                    project_name="$1"
+                fi
+                shift
+                ;;
+        esac
+    done
+    
+    print_header
+    
+    # Prompt for project name if not provided
+    if [[ -z "$project_name" ]]; then
+        project_name=$(prompt_project_name)
+        if [[ -z "$project_name" ]]; then
+            log_error "Project name is required"
+            exit 1
+        fi
+    fi
+    
+    # Validate project name
+    if [[ ! "$project_name" =~ ^[a-zA-Z][a-zA-Z0-9_-]*$ ]]; then
+        log_error "Invalid project name. Use letters, numbers, hyphens, and underscores. Must start with a letter."
+        exit 1
+    fi
+    
+    # Check if directory already exists
+    if [[ -d "$project_name" ]]; then
+        log_error "Directory '$project_name' already exists"
+        exit 1
+    fi
+    
+    # If no template specified interactively, let user choose
+    if [[ -z "$local_path" && "$template" == "django-hypermedia" && ${#TEMPLATE_NAMES[@]} -gt 1 ]]; then
+        template=$(choose_template)
+    fi
+    
+    log_info "Creating project: $project_name"
+    log_info "Template: ${TEMPLATE_NAMES[$template]:-$template}"
+    echo ""
+    
+    # Copy or clone template
+    if [[ -n "$local_path" ]]; then
+        # Local template
+        if [[ ! -d "$local_path" ]]; then
+            log_error "Local template path does not exist: $local_path"
+            exit 1
+        fi
+        
+        spin "Copying template" cp -R "$local_path" "$project_name"
+        
+        # Remove .git from copied template
+        rm -rf "$project_name/.git"
+        
+    else
+        # Remote template
+        local url="${TEMPLATE_URLS[$template]:-}"
+        if [[ -z "$url" ]]; then
+            log_error "Unknown template: $template"
+            exit 1
+        fi
+        
+        spin "Cloning template" git clone --depth 1 "$url" "$project_name"
+        
+        # Remove .git from cloned template
+        rm -rf "$project_name/.git"
+    fi
+    
+    log_success "Template copied"
+    
+    # Initialize fresh git repo
+    spin "Initializing git repository" git -C "$project_name" init
+    log_success "Git repository initialized"
+    
+    # Run setup.sh if it exists
+    if [[ -x "$project_name/setup.sh" ]]; then
+        echo ""
+        log_info "Running project setup..."
+        echo ""
+        cd "$project_name"
+        ./setup.sh
+    elif [[ -f "$project_name/setup.sh" ]]; then
+        echo ""
+        log_info "Running project setup..."
+        echo ""
+        cd "$project_name"
+        bash setup.sh
+    else
+        log_warn "No setup.sh found in template"
+    fi
+    
+    echo ""
+    log_success "Project '$project_name' created successfully!"
+    echo ""
+    
+    if has_gum; then
+        gum style --foreground 212 --bold "Next steps:"
+        gum style --foreground 255 "  cd $project_name"
+        gum style --foreground 255 "  ./start.sh --dev"
+    else
+        echo -e "${MAGENTA}Next steps:${NC}"
+        echo "  cd $project_name"
+        echo "  ./start.sh --dev"
+    fi
+}
+
+# ==============================================================================
+# Main
+# ==============================================================================
+
+main() {
+    # Load user template overrides
+    load_user_templates
+    
+    if [[ $# -eq 0 ]]; then
+        print_header
+        show_help
+        exit 0
+    fi
+    
+    case "$1" in
+        new)
+            shift
+            cmd_new "$@"
+            ;;
+        templates)
+            cmd_templates
+            ;;
+        --help|-h)
+            print_header
+            show_help
+            ;;
+        --version|-v)
+            show_version
+            ;;
+        *)
+            log_error "Unknown command: $1"
+            echo ""
+            show_help
+            exit 1
+            ;;
+    esac
+}
+
+main "$@"
