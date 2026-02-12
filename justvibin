@@ -25,10 +25,12 @@ JUSTVIBIN_CONFIG_DIR="${HOME}/.config/justvibin"
 # Default template URLs
 declare -A TEMPLATE_URLS
 TEMPLATE_URLS["django-hypermedia"]="https://github.com/alexcabrera/justvibin-with-django-and-hypermedia.git"
+TEMPLATE_URLS["hypertext"]="https://github.com/alexcabrera/justvibin-with-hypertext.git"
 
 # Template display names
 declare -A TEMPLATE_NAMES
 TEMPLATE_NAMES["django-hypermedia"]="Django + Hypermedia (HTMX, TailwindCSS)"
+TEMPLATE_NAMES["hypertext"]="HTML + Hypertext (Vanilla HTML/CSS/JS with HTMX)"
 
 # Colors for fallback when gum is not available
 RED='\033[0;31m'
@@ -160,6 +162,7 @@ show_help() {
         gum style --foreground 212 --bold "Available Templates"
         echo ""
         gum style --foreground 159 "  django-hypermedia  Django + HTMX + TailwindCSS"
+        gum style --foreground 159 "  hypertext          Vanilla HTML/CSS/JS + HTMX"
         echo ""
         gum style --foreground 212 --bold "Configuration"
         echo ""
@@ -181,6 +184,7 @@ show_help() {
         echo -e "${MAGENTA}Available Templates${NC}"
         echo ""
         echo "  django-hypermedia  Django + HTMX + TailwindCSS"
+        echo "  hypertext          Vanilla HTML/CSS/JS + HTMX"
         echo ""
         echo -e "${MAGENTA}Configuration${NC}"
         echo ""
