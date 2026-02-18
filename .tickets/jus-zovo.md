@@ -1,6 +1,6 @@
 ---
 id: jus-zovo
-status: open
+status: closed
 deps: [jus-qnt6]
 links: []
 created: 2026-02-12T20:36:30Z

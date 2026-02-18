@@ -1,6 +1,6 @@
 ---
 id: jus-ikny
-status: open
+status: closed
 deps: []
 links: []
 created: 2026-02-12T20:29:27Z

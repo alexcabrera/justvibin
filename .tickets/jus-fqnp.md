@@ -1,6 +1,6 @@
 ---
 id: jus-fqnp
-status: open
+status: closed
 deps: [jus-ae77]
 links: []
 created: 2026-02-12T19:56:21Z

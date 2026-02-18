@@ -10,3 +10,6 @@
 
 # Config (user-specific)
 .justvibin-dev
+
+# Vendored upstream read-only deps
+.read-only/

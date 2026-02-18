@@ -1,6 +1,6 @@
 ---
 id: jus-rtbz
-status: open
+status: closed
 deps: [jus-qg1c]
 links: []
 created: 2026-02-12T20:28:31Z

@@ -1,6 +1,6 @@
 ---
 id: jus-bnwd
-status: open
+status: closed
 deps: [jus-1p4n]
 links: []
 created: 2026-02-12T20:01:59Z

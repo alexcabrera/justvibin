@@ -1,6 +1,6 @@
 ---
 id: jus-wy9h
-status: open
+status: closed
 deps: [jus-3cof]
 links: []
 created: 2026-02-12T20:27:33Z

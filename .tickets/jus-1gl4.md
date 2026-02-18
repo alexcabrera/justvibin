@@ -1,6 +1,6 @@
 ---
 id: jus-1gl4
-status: open
+status: closed
 deps: [jus-3mcd]
 links: []
 created: 2026-02-12T20:28:01Z

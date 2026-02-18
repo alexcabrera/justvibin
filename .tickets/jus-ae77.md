@@ -1,6 +1,6 @@
 ---
 id: jus-ae77
-status: open
+status: closed
 deps: [jus-ovh7]
 links: []
 created: 2026-02-12T19:56:10Z

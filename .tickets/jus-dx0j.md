@@ -1,6 +1,6 @@
 ---
 id: jus-dx0j
-status: open
+status: closed
 deps: [jus-07t4]
 links: []
 created: 2026-02-12T20:31:17Z

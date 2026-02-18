@@ -1,6 +1,6 @@
 ---
 id: jus-nyk7
-status: open
+status: closed
 deps: [jus-0q5m]
 links: []
 created: 2026-02-12T20:33:42Z

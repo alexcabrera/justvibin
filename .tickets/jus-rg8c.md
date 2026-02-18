@@ -1,6 +1,6 @@
 ---
 id: jus-rg8c
-status: open
+status: closed
 deps: [jus-cdr3]
 links: []
 created: 2026-02-12T19:53:19Z

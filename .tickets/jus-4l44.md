@@ -1,6 +1,6 @@
 ---
 id: jus-4l44
-status: open
+status: closed
 deps: [jus-bxd6]
 links: []
 created: 2026-02-12T20:33:06Z

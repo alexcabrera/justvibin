@@ -1,6 +1,6 @@
 ---
 id: jus-3cof
-status: open
+status: closed
 deps: []
 links: []
 created: 2026-02-12T20:27:25Z

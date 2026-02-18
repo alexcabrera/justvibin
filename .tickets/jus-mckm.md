@@ -1,6 +1,6 @@
 ---
 id: jus-mckm
-status: open
+status: closed
 deps: [jus-bxd6]
 links: []
 created: 2026-02-12T20:32:46Z

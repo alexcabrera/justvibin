@@ -1,6 +1,6 @@
 ---
 id: jus-hb3v
-status: open
+status: closed
 deps: [jus-vt7v]
 links: []
 created: 2026-02-12T19:54:28Z

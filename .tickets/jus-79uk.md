@@ -1,6 +1,6 @@
 ---
 id: jus-79uk
-status: open
+status: closed
 deps: [jus-73u3]
 links: []
 created: 2026-02-12T20:28:48Z

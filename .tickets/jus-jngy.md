@@ -1,6 +1,6 @@
 ---
 id: jus-jngy
-status: open
+status: closed
 deps: [jus-cys3]
 links: []
 created: 2026-02-12T19:55:44Z

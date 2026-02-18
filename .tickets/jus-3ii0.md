@@ -1,6 +1,6 @@
 ---
 id: jus-3ii0
-status: open
+status: closed
 deps: []
 links: []
 created: 2026-02-12T20:31:59Z

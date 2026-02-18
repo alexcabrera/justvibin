@@ -1,6 +1,6 @@
 ---
 id: jus-u31l
-status: open
+status: closed
 deps: [jus-9hvc]
 links: []
 created: 2026-02-12T20:28:16Z

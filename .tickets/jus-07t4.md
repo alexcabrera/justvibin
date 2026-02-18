@@ -1,6 +1,6 @@
 ---
 id: jus-07t4
-status: open
+status: closed
 deps: [jus-ikny]
 links: []
 created: 2026-02-12T20:30:21Z

@@ -1,6 +1,6 @@
 ---
 id: jus-ghy8
-status: open
+status: closed
 deps: [jus-ocjp]
 links: []
 created: 2026-02-12T19:58:25Z

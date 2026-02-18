@@ -1,6 +1,6 @@
 ---
 id: jus-zu03
-status: open
+status: closed
 deps: [jus-xcdp]
 links: []
 created: 2026-02-12T20:33:54Z

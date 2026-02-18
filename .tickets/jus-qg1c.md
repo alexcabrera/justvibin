@@ -1,6 +1,6 @@
 ---
 id: jus-qg1c
-status: open
+status: closed
 deps: [jus-u31l]
 links: []
 created: 2026-02-12T20:28:24Z

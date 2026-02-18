@@ -1,6 +1,6 @@
 ---
 id: jus-xcdp
-status: open
+status: closed
 deps: [jus-mckm]
 links: []
 created: 2026-02-12T20:32:54Z

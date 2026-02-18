@@ -1,6 +1,6 @@
 ---
 id: jus-lwpw
-status: open
+status: closed
 deps: [jus-t35w]
 links: []
 created: 2026-02-12T20:30:07Z

@@ -1,0 +1,54 @@
+package registry
+
+import (
+	"encoding/json"
+	"os"
+	"path/filepath"
+	"time"
+)
+
+type Marker struct {
+	Name     string `json:"name"`
+	Template string `json:"template"`
+	Port     int    `json:"port"`
+	Created  string `json:"created"`
+}
+
+func WriteMarker(projectDir, name, template string, port int) (Marker, error) {
+	marker := Marker{
+		Name:     name,
+		Template: template,
+		Port:     port,
+		Created:  time.Now().UTC().Format(time.RFC3339),
+	}
+	data, err := json.MarshalIndent(marker, "", "  ")
+	if err != nil {
+		return Marker{}, err
+	}
+	path := filepath.Join(projectDir, ".justvibin")
+	if err := os.WriteFile(path, data, 0644); err != nil {
+		return Marker{}, err
+	}
+	return marker, nil
+}
+
+func ReadMarker(projectDir string) (Marker, error) {
+	path := filepath.Join(projectDir, ".justvibin")
+	data, err := os.ReadFile(path)
+	if err != nil {
+		return Marker{}, err
+	}
+	var marker Marker
+	if err := json.Unmarshal(data, &marker); err != nil {
+		return Marker{}, err
+	}
+	return marker, nil
+}
+
+func MarkerExists(projectDir string) bool {
+	path := filepath.Join(projectDir, ".justvibin")
+	if info, err := os.Stat(path); err == nil {
+		return !info.IsDir()
+	}
+	return false
+}

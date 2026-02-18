@@ -1,6 +1,6 @@
 ---
 id: jus-9hvc
-status: open
+status: closed
 deps: [jus-1gl4]
 links: []
 created: 2026-02-12T20:28:10Z

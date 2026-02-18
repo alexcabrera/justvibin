@@ -1,6 +1,6 @@
 ---
 id: jus-40n2
-status: open
+status: closed
 deps: [jus-3ii0]
 links: []
 created: 2026-02-12T20:32:12Z

@@ -1,6 +1,6 @@
 ---
 id: jus-vt7v
-status: open
+status: closed
 deps: [jus-f3br]
 links: []
 created: 2026-02-12T19:54:18Z

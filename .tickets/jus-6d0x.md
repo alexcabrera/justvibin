@@ -1,6 +1,6 @@
 ---
 id: jus-6d0x
-status: open
+status: closed
 deps: [jus-rg8c]
 links: []
 created: 2026-02-12T19:53:31Z

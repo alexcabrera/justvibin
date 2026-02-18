@@ -1,6 +1,6 @@
 ---
 id: jus-3bvb
-status: open
+status: closed
 deps: [jus-hbgh]
 links: []
 created: 2026-02-12T20:31:07Z

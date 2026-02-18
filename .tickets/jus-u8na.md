@@ -1,6 +1,6 @@
 ---
 id: jus-u8na
-status: open
+status: closed
 deps: [jus-ovh7]
 links: []
 created: 2026-02-12T19:56:32Z

@@ -1,6 +1,6 @@
 ---
 id: jus-3pkc
-status: open
+status: closed
 deps: [jus-07t4]
 links: []
 created: 2026-02-12T20:30:32Z

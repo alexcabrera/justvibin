@@ -1,6 +1,6 @@
 ---
 id: jus-ovh7
-status: open
+status: closed
 deps: [jus-jngy]
 links: []
 created: 2026-02-12T19:55:57Z

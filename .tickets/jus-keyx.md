@@ -1,6 +1,6 @@
 ---
 id: jus-keyx
-status: open
+status: closed
 deps: [jus-q0si, jus-ae77]
 links: []
 created: 2026-02-12T19:56:52Z
@@ -123,12 +123,12 @@ copy_template() {
 
 ## Acceptance Criteria
 
-- [ ] Templates read from installed plugins
-- [ ] Picker shown when multiple templates available
-- [ ] --template flag selects specific template
-- [ ] scaffold.exclude patterns respected
-- [ ] .justvibin marker written with template, port
-- [ ] Project registered in registry
-- [ ] scaffold.setup script runs if defined
-- [ ] Error if no templates installed
+- [x] Templates read from installed plugins
+- [x] Picker shown when multiple templates available
+- [x] --template flag selects specific template
+- [x] scaffold.exclude patterns respected
+- [x] .justvibin marker written with template, port
+- [x] Project registered in registry
+- [x] scaffold.setup script runs if defined
+- [x] Error if no templates installed
 

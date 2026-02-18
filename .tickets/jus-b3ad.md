@@ -1,6 +1,6 @@
 ---
 id: jus-b3ad
-status: open
+status: closed
 deps: [jus-40n2, jus-bxd6]
 links: []
 created: 2026-02-12T20:32:34Z

@@ -1,6 +1,6 @@
 ---
 id: jus-q0si
-status: open
+status: closed
 deps: [jus-jngy]
 links: []
 created: 2026-02-12T19:57:07Z

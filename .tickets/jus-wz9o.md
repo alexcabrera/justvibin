@@ -1,6 +1,6 @@
 ---
 id: jus-wz9o
-status: open
+status: closed
 deps: [jus-aa04]
 links: []
 created: 2026-02-12T19:55:00Z

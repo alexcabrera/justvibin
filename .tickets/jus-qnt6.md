@@ -1,6 +1,6 @@
 ---
 id: jus-qnt6
-status: open
+status: closed
 deps: [jus-79uk]
 links: []
 created: 2026-02-12T20:28:59Z

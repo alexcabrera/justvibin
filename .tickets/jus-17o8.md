@@ -1,6 +1,6 @@
 ---
 id: jus-17o8
-status: open
+status: closed
 deps: [jus-vt7v]
 links: []
 created: 2026-02-12T19:59:21Z

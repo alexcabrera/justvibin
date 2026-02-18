@@ -1,6 +1,6 @@
 ---
 id: jus-0q5m
-status: open
+status: closed
 deps: [jus-jcvx]
 links: []
 created: 2026-02-12T20:30:56Z

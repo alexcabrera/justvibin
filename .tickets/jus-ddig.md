@@ -1,6 +1,6 @@
 ---
 id: jus-ddig
-status: open
+status: closed
 deps: [jus-l4vb]
 links: []
 created: 2026-02-12T19:59:06Z

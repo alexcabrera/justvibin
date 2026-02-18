@@ -1,6 +1,6 @@
 ---
 id: jus-qjha
-status: open
+status: closed
 deps: [jus-b3ad]
 links: []
 created: 2026-02-12T20:33:27Z
