@@ -1,6 +1,6 @@
 ---
 id: jus-f3wf
-status: open
+status: closed
 deps: [jus-psut]
 links: []
 created: 2026-02-12T20:35:06Z

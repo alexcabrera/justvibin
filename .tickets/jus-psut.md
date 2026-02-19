@@ -1,6 +1,6 @@
 ---
 id: jus-psut
-status: open
+status: closed
 deps: []
 links: []
 created: 2026-02-12T20:35:00Z

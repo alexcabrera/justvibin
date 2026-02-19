@@ -1,6 +1,6 @@
 ---
 id: jus-ji80
-status: open
+status: closed
 deps: [jus-i0c0]
 links: []
 created: 2026-02-12T20:36:11Z

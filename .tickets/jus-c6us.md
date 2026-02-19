@@ -1,6 +1,6 @@
 ---
 id: jus-c6us
-status: open
+status: closed
 deps: [jus-f3wf]
 links: []
 created: 2026-02-12T20:35:12Z

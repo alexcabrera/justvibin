@@ -1,6 +1,6 @@
 ---
 id: jus-hrzu
-status: open
+status: closed
 deps: [jus-lz4t, jus-a97f]
 links: []
 created: 2026-02-12T20:35:26Z

@@ -1,6 +1,6 @@
 ---
 id: jus-8hqk
-status: open
+status: closed
 deps: [jus-hrzu, jus-thwh, jus-ji80, jus-9dog]
 links: []
 created: 2026-02-12T20:37:08Z

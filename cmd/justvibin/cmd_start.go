@@ -11,6 +11,7 @@ import (
 	"github.com/alexcabrera/justvibin/internal/config"
 	"github.com/alexcabrera/justvibin/internal/logging"
 	"github.com/alexcabrera/justvibin/internal/manifest"
+	"github.com/alexcabrera/justvibin/internal/proxy"
 	"github.com/alexcabrera/justvibin/internal/registry"
 	"github.com/alexcabrera/justvibin/internal/serve"
 	"github.com/alexcabrera/justvibin/internal/ui"
@@ -175,6 +176,35 @@ func (c startCommand) run(ctx context.Context, args []string, console *ui.UI, lo
 	default:
 		logger.Error(fmt.Sprintf("Unknown serve type: %s", serveType))
 		return 1
+	}
+
+	// Regenerate Caddyfile and ensure proxy is running
+	projectsPath, err := c.projectsFile()
+	if err == nil {
+		caddyfilePath, err := config.CaddyfilePath()
+		if err == nil {
+			if err := proxy.GenerateCaddyfile(ctx, nil, projectsPath, caddyfilePath); err != nil {
+				logger.Warn(fmt.Sprintf("Failed to regenerate Caddyfile: %v", err))
+			} else {
+				// Start proxy if not running, otherwise reload
+				if !proxy.IsProxyRunning(ctx, nil) {
+					plistPath, err := config.ProxyPlistPath()
+					if err == nil {
+						logPath, _ := config.ProxyLogPath()
+						errPath, _ := config.ProxyErrPath()
+						if err := proxy.CreatePlist(ctx, nil, plistPath, caddyfilePath, logPath, errPath); err != nil {
+							logger.Warn(fmt.Sprintf("Failed to create proxy plist: %v", err))
+						} else if err := proxy.InstallProxyService(ctx, nil, plistPath); err != nil {
+							logger.Warn(fmt.Sprintf("Failed to start proxy: %v", err))
+						} else {
+							logger.Info("Started HTTPS proxy")
+						}
+					}
+				} else if err := proxy.ReloadProxy(ctx, nil, caddyfilePath); err != nil {
+					logger.Warn(fmt.Sprintf("Failed to reload proxy: %v", err))
+				}
+			}
+		}
 	}
 
 	logger.Success(fmt.Sprintf("Started: https://%s.localhost", projectName))

@@ -1,6 +1,6 @@
 ---
 id: jus-jjl8
-status: open
+status: closed
 deps: [jus-fgp8]
 links: []
 created: 2026-02-12T20:00:40Z

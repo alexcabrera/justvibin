@@ -1,6 +1,6 @@
 ---
 id: jus-9dog
-status: open
+status: closed
 deps: [jus-ji80]
 links: []
 created: 2026-02-12T20:36:16Z

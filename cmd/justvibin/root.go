@@ -33,7 +33,7 @@ func init() {
 }
 
 func Execute() {
-	if err := fang.Execute(context.Background(), rootCmd); err != nil {
+	if err := fang.Execute(context.Background(), rootCmd, fang.WithVersion(version.Version)); err != nil {
 		os.Exit(1)
 	}
 }

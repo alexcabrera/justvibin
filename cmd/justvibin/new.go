@@ -510,6 +510,6 @@ func nextStepsText(projectName string) string {
 		"",
 		"Next steps:",
 		fmt.Sprintf("  cd %s", projectName),
-		"  ./start.sh --dev",
+		"  justvibin start",
 	}, "\n")
 }

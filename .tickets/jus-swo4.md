@@ -1,6 +1,6 @@
 ---
 id: jus-swo4
-status: open
+status: closed
 deps: [jus-cys3]
 links: []
 created: 2026-02-12T19:59:47Z

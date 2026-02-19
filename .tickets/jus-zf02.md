@@ -1,6 +1,6 @@
 ---
 id: jus-zf02
-status: open
+status: closed
 deps: [jus-cys3]
 links: []
 created: 2026-02-12T19:59:57Z

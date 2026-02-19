@@ -1,6 +1,6 @@
 ---
 id: jus-bx3x
-status: open
+status: closed
 deps: []
 links: []
 created: 2026-02-12T20:34:31Z

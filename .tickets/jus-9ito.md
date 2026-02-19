@@ -1,6 +1,6 @@
 ---
 id: jus-9ito
-status: open
+status: closed
 deps: [jus-jjl8]
 links: []
 created: 2026-02-12T20:02:18Z

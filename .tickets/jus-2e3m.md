@@ -1,6 +1,6 @@
 ---
 id: jus-2e3m
-status: open
+status: closed
 deps: [jus-6d0x]
 links: []
 created: 2026-02-12T19:53:42Z
