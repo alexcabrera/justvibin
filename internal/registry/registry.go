@@ -202,6 +202,24 @@ func IsPortAvailable(port int, projects map[string]Project) bool {
 	return true
 }
 
+// UpdatePort updates the port for an existing project in the registry.
+func UpdatePort(path, name string, port int) (Project, error) {
+	projects, err := Load(path)
+	if err != nil {
+		return Project{}, err
+	}
+	project, ok := projects[name]
+	if !ok {
+		return Project{}, fmt.Errorf("project '%s' not found", name)
+	}
+	project.Port = port
+	projects[name] = project
+	if err := Save(path, projects); err != nil {
+		return Project{}, err
+	}
+	return project, nil
+}
+
 func writeAtomically(path string, data []byte, perm os.FileMode) error {
 	dir := filepath.Dir(path)
 	if err := os.MkdirAll(dir, 0755); err != nil {

@@ -52,3 +52,21 @@ func MarkerExists(projectDir string) bool {
 	}
 	return false
 }
+
+// UpdateMarkerPort updates the port in an existing marker file, preserving other fields.
+func UpdateMarkerPort(projectDir string, port int) (Marker, error) {
+	marker, err := ReadMarker(projectDir)
+	if err != nil {
+		return Marker{}, err
+	}
+	marker.Port = port
+	data, err := json.MarshalIndent(marker, "", "  ")
+	if err != nil {
+		return Marker{}, err
+	}
+	path := filepath.Join(projectDir, ".justvibin")
+	if err := os.WriteFile(path, data, 0644); err != nil {
+		return Marker{}, err
+	}
+	return marker, nil
+}
